@@ -1,24 +1,21 @@
 const startButton = document.getElementById('start-btn');
 const nextButton = document.getElementById('next-btn');
+const submitButton = document.getElementById('submit-btn');
 const questionContainerElement = document.getElementById('question-container');
 const questionElement = document.getElementById('question');
 const answerButtonsElement = document.getElementById('answer-buttons');
 const scoreElement = document.getElementById('right-answers');
+const thankYouMessageElement = document.getElementById('thank-you-message');
 
 let shuffledQuestions, currentQuestionIndex;
 let quizScore = 0;
-
-function updateScore() {
-    scoreElement.innerText = `Score: ${quizScore}`;
-}
-
 
 startButton.addEventListener('click', startGame);
 nextButton.addEventListener('click', () => {
     currentQuestionIndex++;
     setNextQuestion();
 });
-
+submitButton.addEventListener('click', showThankYouMessage);
 
 function startGame() {
     startButton.classList.add('hide');
@@ -52,6 +49,7 @@ function showQuestion(question) {
 function resetState() {
     clearStatusClass(document.body);
     nextButton.classList.add('hide');
+    submitButton.classList.add('hide');
     while (answerButtonsElement.firstChild) {
         answerButtonsElement.removeChild(answerButtonsElement.firstChild);
     }
@@ -69,8 +67,7 @@ function selectAnswer(e) {
     if (shuffledQuestions.length > currentQuestionIndex + 1) {
         nextButton.classList.remove('hide');
     } else {
-        startButton.innerText = 'Restart';
-        startButton.classList.remove('hide');
+        submitButton.classList.remove('hide');
     }
     if (correct) {
         quizScore++;
@@ -94,6 +91,12 @@ function clearStatusClass(element) {
 
 function updateScore() {
     scoreElement.innerText = `Score: ${quizScore}`;
+}
+
+function showThankYouMessage() {
+    questionContainerElement.classList.add('hide');
+    submitButton.classList.add('hide');
+    thankYouMessageElement.classList.remove('hide');
 }
 
 const questions = [
@@ -157,35 +160,8 @@ const questions = [
             { text: '<scripting>', correct: false },
         ],
     },
-    {
-        question: 'What is the correct syntax for referring to an external script called "script.js"?',
-        answers: [
-            { text: '<script src="script.js">', correct: true },
-            { text: '<script href="script.js">', correct: false },
-            { text: '<script ref="script.js">', correct: false },
-            { text: '<script name="script.js">', correct: false },
-        ],
-    },
-    {
-        question: 'Which operator is used to assign a value to a variable?',
-        answers: [
-            { text: '=', correct: true },
-            { text: '*', correct: false },
-            { text: '-', correct: false },
-            { text: '/', correct: false },
-        ],
-    },
-    {
-        question: 'Which of the following is a loop structure in JavaScript?',
-        answers: [
-            { text: 'for', correct: true },
-            { text: 'foreach', correct: false },
-            { text: 'loop', correct: false },
-            { text: 'repeat', correct: false },
-        ],
-    },
-    {
-        question: 'How do you declare a JavaScript variable?',
+{
+    question: 'How do you declare a JavaScript variable?',
         answers: [
             { text: 'var carName;', correct: true },
             { text: 'variable carName;', correct: false },
@@ -193,6 +169,7 @@ const questions = [
             { text: 'carName;', correct: false },
         ],
     },
+
     {
         question: 'Which event occurs when the user clicks on an HTML element?',
         answers: [
@@ -202,4 +179,15 @@ const questions = [
             { text: 'onmouseover', correct: false },
         ],
     },
+
+    {
+        question: 'Which operator is used to assign a value to a variable?',
+        answers: [
+            { text: '=', correct: true },
+            { text: '*', correct: false },
+            { text: '-', correct: false },
+            { text: '/', correct: false },
+        ],
+    },
 ];
+
